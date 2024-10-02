@@ -13,22 +13,37 @@ public class EmployeeDAO implements EmployeeDaoInterface {
 
     private SessionFactory sessionFactory;
 
+
     public EmployeeDAO() {
-        sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+        try {
+            sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+            System.out.println("SessionFactory created successfully.");
+        } catch (Exception e) {
+            System.out.println("Failed to create SessionFactory.");
+            e.printStackTrace();
+        }
     }
+
     @Override
 
     public List<Employee> getAllEmployees() {
-
         Session session = sessionFactory.openSession();
         List<Employee> employees = null;
         try {
             employees = session.createQuery("from Employee", Employee.class).list();
+            if (employees != null && !employees.isEmpty()) {
+                System.out.println("Employees fetched: " + employees.size());
+            } else {
+                System.out.println("No employees found in the database.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             session.close();
         }
         return employees;
     }
+
 
     @Override
     public void saveEmployee(Employee employee) {
@@ -86,6 +101,26 @@ public class EmployeeDAO implements EmployeeDaoInterface {
             session.close();
         }
     }
+
+    @Override
+    public Employee getEmployeeById(int id) {
+        Employee employee = null;
+
+        try (Session session = sessionFactory.openSession();) {
+
+            session.beginTransaction();
+
+            employee = session.get(Employee.class, id);
+
+            session.getTransaction().commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return employee;  // Return the employee or null if not found
+    }
+
 
 
     public void close() {

@@ -8,8 +8,6 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="show_sql">true</property>
 
-
-        <mapping class="com.entity.Employee"/>
-
+        <mapping resource="hbm/employee.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

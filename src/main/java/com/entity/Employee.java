@@ -2,13 +2,9 @@ package com.entity;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "employees")
 public class Employee {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+   private int id;
 
     private String name;
     private String email;
@@ -30,39 +26,51 @@ public class Employee {
 
     }
 
-    public void getId(int id){
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
         this.id = id;
-    };
-    public void getName(String name){
-      this.name = name;
-    };
-    public void setName(){
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
-    };
-    public void getemail(String email){
-        this.email = email;
-    };
-    public void setemail(){
-        this.email = email;
-    };
-    public void getPhone(String phone){
-        this.phone = phone;
-    };
-    public void setPhone(){
-        this.phone = phone;
-    };
-    public void getDepartment(String department){
-        this.department = department;
-    };
-    public void setDepartment(){
-        this.department = department;
-    };
-    public void getPosition(String position){
-        this.position = position;
-    };
-    public void setPosition(){
-        this.position = position;
-    };
+    }
 
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
 }
