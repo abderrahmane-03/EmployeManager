@@ -7,6 +7,8 @@ public interface EmployeeDaoInterface {
     public void deleteEmployee(int employeeId);
     public void updateEmployee(Employee employee);
     public Employee getEmployeeById(int id);
+    public List<Employee> filter(String filterOption);
+    public List<Employee> search(String searchTerm);
     public void close() ;
 }
 

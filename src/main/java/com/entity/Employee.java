@@ -11,15 +11,17 @@ public class Employee {
     private String phone;
     private String department;
     private String position;
+    private String picture;
 
 
-    protected Employee(int id,String name,String email,String phone,String department,String position){
+    protected Employee(int id,String name,String email,String phone,String department,String position,String picture){
         this.id=id;
         this.name=name;
         this.email=email;
         this.department=phone;
         this.phone=department;
         this.position=position;
+        this.picture=position;
     };
 
     public Employee() {
@@ -72,5 +74,12 @@ public class Employee {
 
     public void setPosition(String position) {
         this.position = position;
+    }
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 }

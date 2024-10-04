@@ -121,6 +121,32 @@ public class EmployeeDAO implements EmployeeDaoInterface {
         return employee;  // Return the employee or null if not found
     }
 
+    public List<Employee> filter(String filterOption) {
+        Session session = sessionFactory.openSession();
+        List<Employee> employees = null;
+        try {
+            employees = session.createQuery("FROM Employee WHERE department = :filterOption", Employee.class)
+                    .setParameter("filterOption", filterOption)  // filter by department or whatever criteria you have
+                    .list();
+        } finally {
+            session.close();
+        }
+        return employees;
+    }
+
+
+    public List<Employee> search(String searchTerm) {
+        Session session = sessionFactory.openSession();
+        List<Employee> employees = null;
+        try {
+            employees = session.createQuery("FROM Employee WHERE name LIKE :searchTerm", Employee.class)
+                    .setParameter("searchTerm", "%" + searchTerm + "%")  // search for matching names
+                    .list();
+        } finally {
+            session.close();
+        }
+        return employees;
+    }
 
 
     public void close() {
