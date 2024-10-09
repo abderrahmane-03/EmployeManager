@@ -4,13 +4,14 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+.module{
+    cursor: url('/static/cursor.png') 16 16, auto;
+}
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f4f6f9;
     color: #333;
     line-height: 1.6;
-    padding: 20px;
 }
 
 .card {

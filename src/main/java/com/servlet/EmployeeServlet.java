@@ -3,6 +3,8 @@ package com.servlet;
 import com.DAO.imp.EmployeeDAO;
 import com.DAO.inf.EmployeeDaoInterface;
 import com.entity.Employee;
+
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Part;
 import java.nio.file.Paths;
 import javax.servlet.RequestDispatcher;
@@ -14,6 +16,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 2,
+        maxFileSize = 1024 * 1024 * 10,
+        maxRequestSize = 1024 * 1024 * 50
+)
 public class EmployeeServlet extends HttpServlet {
     private EmployeeDaoInterface employeeDao;
     private static final String UPLOAD_DIR = "static";
@@ -26,7 +33,6 @@ public class EmployeeServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        System.out.println(request.getServletPath());
             switch (request.getServletPath()) {
                 case "/search":
                     search(request,response);
@@ -39,6 +45,7 @@ public class EmployeeServlet extends HttpServlet {
                 case "/delete":
                     delete(request, response);
                     break;
+
                 case "/home":
                     list(request, response);
                     break;
@@ -58,6 +65,7 @@ public class EmployeeServlet extends HttpServlet {
                 update(request, response);
                 break;
 
+
         }
     }
 
@@ -75,31 +83,30 @@ public class EmployeeServlet extends HttpServlet {
         String department = request.getParameter("department");
         String position = request.getParameter("position");
 
-        // Handling file upload
-        Part filePart = request.getPart("picture"); // Retrieves the file input
+
+        Part filePart = request.getPart("picture");
+
+        if (filePart == null) {
+            throw new ServletException("File part is missing.");
+        }
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
 
-        // Ensure the upload directory exists
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
             uploadDir.mkdir();
         }
-
-                // Save the uploaded file to disk
         String filePath = uploadPath + File.separator + fileName;
         filePart.write(filePath);
 
-        // Creating the employee object
+
         Employee employee = new Employee();
         employee.setName(name);
         employee.setEmail(email);
         employee.setPhone(phone);
         employee.setDepartment(department);
         employee.setPosition(position);
-        employee.setPicture(fileName);  // Storing the file name in the DB
-
-        // Save the employee
+        employee.setPicture(fileName);
         employeeDao.saveEmployee(employee);
         response.sendRedirect("/EmployManger/");
     }
@@ -116,7 +123,6 @@ public class EmployeeServlet extends HttpServlet {
         List<Employee> employees = employeeDao.getAllEmployees();
 
         request.setAttribute("employeeList", employees);
-        System.out.println("is"+employees.size());
         RequestDispatcher dispatcher = request.getRequestDispatcher("/views/index.jsp");
         dispatcher.forward(request, response);}
 
@@ -127,7 +133,17 @@ public class EmployeeServlet extends HttpServlet {
         String  phone = request.getParameter("phone");
         String position = request.getParameter("position");
         String department = request.getParameter("department");
-        String picture = request.getParameter("picture");
+        Part filePart = request.getPart("picture");
+
+        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+        String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
+
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdir();
+        }
+        String filePath = uploadPath + File.separator + fileName;
+        filePart.write(filePath);
         Employee employee = new Employee();
         employee.setId(id);
         employee.setName(name);
@@ -135,7 +151,7 @@ public class EmployeeServlet extends HttpServlet {
         employee.setPhone(phone);
         employee.setDepartment(department);
         employee.setPosition(position);
-        employee.setPicture(picture);
+        employee.setPicture(fileName);
 
         employeeDao.updateEmployee(employee);
         response.sendRedirect("/EmployManger/");

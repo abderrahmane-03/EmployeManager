@@ -13,35 +13,40 @@
 </head>
 
 <body>
-<h2>Employee List</h2>
+<div style="position: relative; width: 100%;">
+    <img src="static/homebg.png" style="position: fixed ; z-index: -3; width: 100%;" alt="Arstotzka Logo">
+    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.3); z-index: -3;"></div>
+</div>
 
-<a href="views/createForm.jsp" class="button-50">Create new employee</a>
-<c:choose>
-    <c:when test="${empty employeeList}">
-        <p>No employees found.</p>
+<div style="display: flex; justify-content: space-between; padding:  3rem 4rem 10rem 5rem ">
+        <a href="views/createForm.jsp" class="button-50">Create new employee</a>
+        <c:choose>
+        <c:when test="${empty employeeList}">
+            <p>No employees found.</p>
 
-    </c:when>
-    <c:otherwise>
+        </c:when>
+        <c:otherwise>
         <form action="http://localhost:2525/EmployManger/search" method="GET">
-            <input type="search" name="search">
-            <button type="submit">search</button>
+            <input class="button-50" type="search" name="search">
+            <button class="button-50" type="submit">search</button>
         </form>
         <form action="http://localhost:2525/EmployManger/filter" method="GET">
 
-            <select name="filter">
-                <option value="RIPD">
-                    RIPD
-                </option>
-                <option value="Racoon City">
-                    Racoon City
-                </option>
-                <option value="Village">
-                    Village
-                </option>
+            <select class="button-50" name="filter">
+                <option value="RIPD">RIPD</option>
+                <option value="IT">IT</option>
+                <option value="TECH">TECH</option>
+                <option value="INV">INV</option>
+                <option value="TEST">TEST</option>
+                <option value="PROD">PROD</option>
+                <option value="DEV">DEV</option>
+                <option value="ARCH">ARCH</option>
             </select>
-            <button type="submit">filter</button>
+            <button class="button-50" type="submit">filter</button>
         </form>
-        <div style="display: flex; flex-wrap: wrap;  gap:50px 20px;">
+
+</div>
+        <div style=" padding:20px; display: flex; flex-wrap: wrap;  gap:50px 20px;">
         <c:forEach var="employee" items="${employeeList}">
             <div class="card">
             <header class="card-header">
@@ -56,7 +61,7 @@
 
             <section class="photo-section">
                 <div class="photo">
-                    <img src="static/${employee.picture}.png" alt="Face Photo" style="height: 9.5rem; width:10rem;">
+                    <img src="static/${employee.picture}" alt="Face Photo" style="height: 9.5rem; width:10rem;">
                 </div>
                 <div class="visa-status-container">
                     <div class="visa-status">

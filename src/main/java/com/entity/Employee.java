@@ -21,7 +21,7 @@ public class Employee {
         this.department=phone;
         this.phone=department;
         this.position=position;
-        this.picture=position;
+        this.picture=picture;
     };
 
     public Employee() {
