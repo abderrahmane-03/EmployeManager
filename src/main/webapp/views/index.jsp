@@ -19,6 +19,7 @@
 </div>
 
 <div style="display: flex; justify-content: space-between; padding:  3rem 4rem 10rem 5rem ">
+    <a href="views/createDepartment.jsp" class="button-50">Create new Departement</a>
         <a href="views/createForm.jsp" class="button-50">Create new employee</a>
         <c:choose>
         <c:when test="${empty employeeList}">

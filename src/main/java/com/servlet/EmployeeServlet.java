@@ -1,7 +1,9 @@
 package com.servlet;
 
+import com.DAO.imp.DepartmentDAO;
 import com.DAO.imp.EmployeeDAO;
 import com.DAO.inf.EmployeeDaoInterface;
+import com.entity.Department;
 import com.entity.Employee;
 
 import javax.servlet.annotation.MultipartConfig;
@@ -57,7 +59,9 @@ public class EmployeeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         switch (request.getServletPath()) {
-
+            case "/addDepartement":
+                addDepartement(request,response);
+                break;
             case "/create":
                 create(request, response);
                 break;
@@ -173,6 +177,16 @@ public class EmployeeServlet extends HttpServlet {
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/views/index.jsp");
         dispatcher.forward(request, response);  // forward to JSP to display results
+    }
+
+    public void addDepartement(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException{
+        DepartmentDAO departmentDAO =new DepartmentDAO();
+        String name = request.getParameter("name");
+
+        Department department =new Department() ;
+        department.setName(name) ;
+        departmentDAO.save(department);
+        response.sendRedirect("/EmployManger/");
     }
 
 
